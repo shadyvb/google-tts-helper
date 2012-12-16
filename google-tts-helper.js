@@ -10,21 +10,11 @@ jQuery(function($){
 	    init: function(window) {
 		window.tts = this;
 		
-		this.playerDiv = $('body').append('<div id="tts-player"/>').find('#tts-player');
-		this.player = this.playerDiv.jPlayer({
-		    swfPath: '/'
-		});
-		
+		this.initPlayer();
 		this.attach('[data-tts]');
 	    },
 	    read: function(text, lang) {
 		this.play(this.getUrl(text, lang));
-	    },
-	    play: function(url) {
-		console && console.log('playing: ' + url)
-		return this.player.jPlayer("setMedia", {
-		    mp3: url
-		}).jPlayer('play');
 	    },
 	    getUrl: function(text, lang) {
 		if(!lang) lang = tts.lang;
@@ -36,6 +26,13 @@ jQuery(function($){
 		$(selector).click(function(e){
 		    tts.read($.trim($(this).text()), $(this).data('tts'));
 		})
+	    },
+	    initPlayer: function() {
+		this.playerDiv = $('body').append('<iframe id="tts-player"/>').find('#tts-player').css({visibility: 'hidden', position: 'fixed', top: 0, left: 0});
+	    },
+	    play: function(url) {
+		console && console.log('playing: ' + url)
+		this.playerDiv.attr('src', url);
 	    }
     };
     
