@@ -5,15 +5,28 @@
 	<title>TTS Demo</title>
 	<script type="text/javascript" src="//code.jquery.com/jquery.min.js"></script>
 	<script type="text/javascript" src="google-tts-helper.js"></script>
+	<link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet">
 </head>
 <body>
 	
-	<div data-tts="en">
-		Hello
+	<div class="well">
+		<p data-tts="en">This will be translated automatically, because it has a [data-tts] attributes.</p>
+		<pre>&lt;p data-tts=&quot;en&quot;&gt;This will be translated automatically, because it has a [data-tts] attributes.&lt;/p&gt;</pre>
 	</div>
 	
-	<div class="hello">
-		اهلا وسهلا. كيف حالٌك
+	<div class="well">
+		<div data-tts="ar">هذا البلوك سوف يترجم تلقائياً، لانه يحتوى على كود [data-tts]</div>
+		<pre>&lt;p data-tts=&quot;ar&quot;&gt;هذا البلوك سوف يترجم تلقائياً، لانه يحتوى على كود [data-tts]&lt;/p&gt;</pre>
+	</div>
+	
+	<div class="well">
+		<div class="some_css_class">
+			لاضافة القراءة الى اي بلوك دون تغيير كود الصفحة ، يمكن تشغيل الكود التالى
+		</div>
+		
+		<code>
+		&lt;script&gt;<br/>			tts.attach('.some_css_class')<br/>		&lt;/script&gt;
+		</code>
 	</div>
 	
 </body>

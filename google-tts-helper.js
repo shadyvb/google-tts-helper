@@ -23,7 +23,7 @@ jQuery(function($){
 		return template.replace('%lang', lang).replace('%text', text);
 	    },
 	    attach: function(selector, lang) {
-		$(selector).unbind('.tts').bind('click.tts', function(e){
+		$(selector).unbind('.tts').bind('mouseover.tts', function(e){
 		    tts.read($.trim($(this).text()), lang ? lang : $(this).data('tts'));
 		})
 	    },
