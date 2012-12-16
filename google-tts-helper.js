@@ -22,9 +22,9 @@ jQuery(function($){
 		var template = 'http://translate.google.com/translate_tts?tl=%lang&q=%text';
 		return template.replace('%lang', lang).replace('%text', text);
 	    },
-	    attach: function(selector) {
-		$(selector).click(function(e){
-		    tts.read($.trim($(this).text()), $(this).data('tts'));
+	    attach: function(selector, lang) {
+		$(selector).unbind('.tts').bind('click.tts', function(e){
+		    tts.read($.trim($(this).text()), lang ? lang : $(this).data('tts'));
 		})
 	    },
 	    initPlayer: function() {
