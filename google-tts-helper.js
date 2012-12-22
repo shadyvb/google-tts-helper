@@ -10,7 +10,7 @@ jQuery(function($){
     var tts = {
 	    lang: 'ar',
 	    maxWords: 15,
-	    keys: [110],
+	    keys: [110, 1609],
 	    init: function() {
 		this.initPlayer();
 		this.attach('[data-tts]');
