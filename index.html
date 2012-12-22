@@ -25,7 +25,31 @@
 		</div>
 		
 		<code>
-		&lt;script&gt;<br/>			tts.attach('.some_css_class')<br/>		&lt;/script&gt;
+		&lt;script&gt;<br/>			tts.init(); tts.attach('.some_css_class');<br/>		&lt;/script&gt;
+		</code>
+	</div>
+	
+	<div class="well">
+		<div class="text-container">
+			هذا راس المقال، وسوف تتم قرائته بعد الضغط على الزر التالى
+		</div>
+		<div>
+			<a href="#" class="click-button">Click here</a>
+		</div>
+		<code>
+		&lt;script&gt;<br/>			tts.init(); tts.clicker('.click-button', '.text-container', 'ar');<br/>		&lt;/script&gt;
+		</code>
+	</div>
+	
+	<div class="well">
+		<div class="text-container-auto">
+			هذا راس المقال ، وسوف تتم قرائته بعد الضغط على الزر الذي سوف يتم تخليقه اوتوماتيكيا
+		</div>
+		<div class="text-container-auto">
+			تجربة وجود اكثر من مقال ديناميكي
+		</div>
+		<code>
+		&lt;script&gt;<br/>			tts.init(); tts.autoClicker('&lt;a href="#"&gt;Click here&lt;/a&gt;', '.text-container-auto', 'ar');<br/>		&lt;/script&gt;
 		</code>
 	</div>
 	

@@ -7,11 +7,10 @@ jQuery(function($){
     
     var tts = {
 	    lang: 'ar',
-	    init: function(window) {
-		window.tts = this;
-		
+	    init: function() {
 		this.initPlayer();
 		this.attach('[data-tts]');
+		this.attachOnClick('[data-tts-click]');
 	    },
 	    read: function(text, lang) {
 		this.play(this.getUrl(text, lang));
@@ -27,6 +26,31 @@ jQuery(function($){
 		    tts.read($.trim($(this).text()), lang ? lang : $(this).data('tts'));
 		})
 	    },
+	    attachOnClick: function(selector) {
+		this.clicker(selector)
+	    },
+	    clicker: function(target, selector, lang) {
+		$target = $(target);
+		$(target).unbind('.tts').bind('click.tts', tts._clickerEvent);
+		if(!$target.data('tts-click'))
+		    $target.data('tts-click', selector+'|'+lang);
+	    },
+	    autoClicker: function(html, selector, lang) {
+		$target = $(html);
+		$target.unbind('.tts').bind('click.tts', function(e) {
+		    tts.read($.trim($(this).prev().text()), lang ? lang : $(this))
+		    e.preventDefault();
+		});
+		$selector = $(selector);
+		$selector.after($target);
+	    },
+	    _clickerEvent: function(e) {
+		var ttsData = $(this).data('tts-click').split('|');
+		var selector = ttsData[0];
+		var lang = ttsData[1];
+		tts.read($.trim($(selector).text()), lang ? lang : $(this))
+		e.preventDefault();
+	    },
 	    initPlayer: function() {
 		this.playerDiv = $('body').append('<iframe id="tts-player"/>').find('#tts-player').css({visibility: 'hidden', position: 'fixed', top: 0, left: 0});
 	    },
@@ -36,5 +60,5 @@ jQuery(function($){
 	    }
     };
     
-    tts.init(window);
+    window.tts = tts;
 })
