@@ -3,17 +3,56 @@
  * License: GPL
  */
 
+function array_chunk(e,t,n){var r,i="",s=0,o=-1,u=e.length||0,a=[];if(t<1){return null}if(Object.prototype.toString.call(e)==="[object Array]"){if(n){while(s<u){(r=s%t)?a[o][s]=e[s]:a[++o]={},a[o][s]=e[s];s++}}else{while(s<u){(r=s%t)?a[o][r]=e[s]:a[++o]=[e[s]];s++}}}else{if(n){for(i in e){if(e.hasOwnProperty(i)){(r=s%t)?a[o][i]=e[i]:a[++o]={},a[o][i]=e[i];s++}}}else{for(i in e){if(e.hasOwnProperty(i)){(r=s%t)?a[o][r]=e[i]:a[++o]=[e[i]];s++}}}}return a}
+
 jQuery(function($){
     
     var tts = {
 	    lang: 'ar',
+	    maxWords: 15,
+	    keys: [110],
 	    init: function() {
 		this.initPlayer();
 		this.attach('[data-tts]');
 		this.attachOnClick('[data-tts-click]');
 	    },
 	    read: function(text, lang) {
-		this.play(this.getUrl(text, lang));
+		var self = this;
+		self.text = array_chunk(text.split(' '), self.maxWords);
+		self.readIdx = 0;
+		self.readTotal = self.text.length;
+		self.readLang = lang;
+		console.log(self.readTotal, self.readIdx)
+		
+		self.listenToKey(self.keys, self.readInc, true);
+	    },
+	    readInc: function(){
+		var self = tts;
+		if(!self.readTotal)
+		    return;
+		if(self.readIdx < self.readTotal) {
+		    self.play(self.getUrl(self.text[self.readIdx].join(' '), self.readLang))
+		    self.readIdx++;
+		    console.log('read ' + self.readIdx, self.readTotal)
+		}
+		if(self.readIdx >= self.readTotal) {
+		    console.log('end ', self.readIdx, self.readTotal)
+		    self.readIdx = null;
+		    self.readTotal = null;
+		    self.readLang = null;
+		}
+	    },
+	    listenToKey: function(keys, fn, now) {
+		if(now)
+		    fn();
+		$(window).unbind('keypress.tts').bind('keypress.tts', function(e){
+		    var ev = e || window.event;
+		    var key = ev.keyCode || ev.which;
+		    if($.inArray(key, keys))
+			return;
+		    else
+			fn();
+		});
 	    },
 	    getUrl: function(text, lang) {
 		if(!lang) lang = tts.lang;
@@ -52,13 +91,12 @@ jQuery(function($){
 		e.preventDefault();
 	    },
 	    initPlayer: function() {
-		this.playerDiv = $('body').append('<iframe id="tts-player"/>').find('#tts-player').css({visibility: 'hidden', position: 'fixed', top: 0, left: 0});
+		this.playerFrame = $('body').append('<iframe id="tts-player"/>').find('#tts-player').css({visibility: 'hidden', position: 'fixed', top: 0, left: 0});
 	    },
 	    play: function(url) {
-		console && console.log('playing: ' + url)
-		this.playerDiv.attr('src', url);
+		this.playerFrame.attr('src', url);
 	    }
     };
-    
+    tts.init(); 
     window.tts = tts;
 })
