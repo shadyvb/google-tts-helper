@@ -22,7 +22,6 @@ jQuery(function($){
 		self.readIdx = 0;
 		self.readTotal = self.text.length;
 		self.readLang = lang;
-		console.log(self.readTotal, self.readIdx)
 		
 		self.listenToKey(self.keys, self.readInc, true);
 	    },
