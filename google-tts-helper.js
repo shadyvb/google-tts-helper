@@ -33,10 +33,8 @@ jQuery(function($){
 		if(self.readIdx < self.readTotal) {
 		    self.play(self.getUrl(self.text[self.readIdx].join(' '), self.readLang))
 		    self.readIdx++;
-		    console.log('read ' + self.readIdx, self.readTotal)
 		}
 		if(self.readIdx >= self.readTotal) {
-		    console.log('end ', self.readIdx, self.readTotal)
 		    self.readIdx = null;
 		    self.readTotal = null;
 		    self.readLang = null;
@@ -58,7 +56,7 @@ jQuery(function($){
 		if(!lang) lang = tts.lang;
 		
 		var template = 'http://translate.google.com/translate_tts?tl=%lang&q=%text';
-		return template.replace('%lang', lang).replace('%text', text);
+		return template.replace('%lang', lang).replace('%text', encodeURI(text));
 	    },
 	    attach: function(selector, lang) {
 		$(selector).unbind('.tts').bind('mouseover.tts', function(e){
